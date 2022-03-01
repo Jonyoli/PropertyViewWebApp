@@ -1,12 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PropertyViewWebApp.Server.Models
+namespace PropertyViewWebApp.Shared.Models.Listings
 {
-    public class Listings
+    public class ListingsUpdate
     {
-        [Key]
+        [Required]
         public int Id { get; set; }
 
         [Required]
@@ -23,13 +22,5 @@ namespace PropertyViewWebApp.Server.Models
 
         [Required]
         public double Squarefeet { get; set; }
-
-        public int AmenitiesId { get; set; }
-        public virtual Amenitites Amenitites { get; set; }
-
-        [ForeignKey(nameof(TypeOfListing))]
-        public int TypeOfListingId { get; set; }
-        public virtual TypeOfListing TypeOfListing { get; set; }
-
     }
 }
