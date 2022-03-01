@@ -17,5 +17,9 @@ namespace PropertyViewWebApp.Server.Data
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {
         }
+
+        public DbSet<Listings> Listings { get; set; }
+        public DbSet<Amenitites> Amenitites { get; set; }
+        public DbSet<TypeOfListing> TypeOfListing { get; set; }
     }
 }
