@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace PropertyViewWebApp.Server.Models
@@ -11,7 +12,6 @@ namespace PropertyViewWebApp.Server.Models
         [Required]
         public string Name { get; set; }
 
-        public int ListingsId { get; set; }
-        public virtual Listings Listings { get; set; }
+        public ICollection<Listings> Listings { get; set; }
     }
 }

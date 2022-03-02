@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -24,8 +25,9 @@ namespace PropertyViewWebApp.Server.Models
         [Required]
         public double Squarefeet { get; set; }
 
-        public int AmenitiesId { get; set; }
-        public virtual Amenitites Amenitites { get; set; }
+        public ICollection<Amenitites> Amenitites { get; set; }
+
+        public int? amenitiesId { get; set; }
 
         [ForeignKey(nameof(TypeOfListing))]
         public int TypeOfListingId { get; set; }

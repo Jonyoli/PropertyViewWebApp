@@ -17,6 +17,10 @@
 
   <ItemGroup>
     <None Remove="Microsoft.EntityFrameworkCore.SqlServer" />
+    <None Remove="Services\" />
+    <None Remove="Services\ListingsServices\" />
+    <None Remove="Services\TypeOfListingServices\" />
+    <None Remove="Services\AmenitiesServices\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
@@ -31,4 +35,10 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.14" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\" />
+    <Folder Include="Services\ListingsServices\" />
+    <Folder Include="Services\TypeOfListingServices\" />
+    <Folder Include="Services\AmenitiesServices\" />
+  </ItemGroup>
 </Project>
