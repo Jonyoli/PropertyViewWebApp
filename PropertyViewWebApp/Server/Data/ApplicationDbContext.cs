@@ -19,7 +19,7 @@ namespace PropertyViewWebApp.Server.Data
         }
 
         public DbSet<Listings> Listings { get; set; }
-        public DbSet<Amenitites> Amenitites { get; set; }
+        public DbSet<Amenities> Amenities { get; set; }
         public DbSet<TypeOfListing> TypeOfListing { get; set; }
     }
 }

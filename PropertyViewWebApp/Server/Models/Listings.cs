@@ -25,7 +25,7 @@ namespace PropertyViewWebApp.Server.Models
         [Required]
         public double Squarefeet { get; set; }
 
-        public ICollection<Amenitites> Amenitites { get; set; }
+        public ICollection<Amenities> Amenities { get; set; }
 
         public int? amenitiesId { get; set; }
 

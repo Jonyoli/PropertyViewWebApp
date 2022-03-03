@@ -23,7 +23,7 @@ namespace PropertyViewWebApp.Server.Services.ListingsServices
         public async Task<bool> AddListingstoAmenitiesAsync(int listingsId, AddListingsToAmenities request)
         {
             var listingsEntity = await _context.Listings.FindAsync(request.Id);
-            var amenitiesEntity = await _context.Amenitites
+            var amenitiesEntity = await _context.Amenities
                 .Include(a => a.Listings)
                 .FirstOrDefaultAsync(a => a.Id == request.Id);
 
@@ -73,7 +73,7 @@ namespace PropertyViewWebApp.Server.Services.ListingsServices
         public async Task<ListingsDetail> GetListingsDetailAsync(int listingsId)
         {
             var listings = await _context.Listings
-                .Include(a => a.Amenitites)
+                .Include(a => a.Amenities)
                 .Include(t => t.TypeOfListing)
                 .FirstOrDefaultAsync(l => l.Id == listingsId);
             return listings is null ? null : new ListingsDetail
@@ -84,7 +84,7 @@ namespace PropertyViewWebApp.Server.Services.ListingsServices
                 NumberOfBeds = listings.NumberOfBeds,
                 NumberOfBaths = listings.NumberOfBaths,
                 Squarefeet = listings.Squarefeet,
-                Amenities = listings.Amenitites.Select(a => new AmenitiesGetAll
+                Amenities = listings.Amenities.Select(a => new AmenitiesGetAll
                 {
                     Id = a.Id,
                     Name = a.Name

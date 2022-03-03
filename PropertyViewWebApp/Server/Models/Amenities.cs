@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PropertyViewWebApp.Server.Models
 {
-    public class Amenitites
+    public class Amenities
     {
         [Key]
         public int Id { get; set; }
