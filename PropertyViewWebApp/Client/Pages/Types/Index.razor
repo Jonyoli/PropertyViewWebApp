@@ -1,0 +1,34 @@
+﻿@page "/types"
+@using PropertyViewWebApp.Shared.Models.TypeOfListing
+@inject HttpClient Http
+<h3>Types</h3>
+
+<a href="/listings/create">Create a Listing</a>
+@if (types == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (TypeOfListingGetAll types in types)
+            {
+                <tr>
+                    <td>@types.Id</td>
+                    <td>@types.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<TypeOfListingGetAll> types;
+}

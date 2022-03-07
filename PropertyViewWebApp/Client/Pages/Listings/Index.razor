@@ -1,0 +1,40 @@
+﻿@page "/listings"
+@using PropertyViewWebApp.Shared.Models.Listings
+@inject HttpClient Http
+
+<h3>Listings</h3>
+
+<a href="/listings/create">Create a listing</a>
+@if (_listings== null)
+            {
+                <p><em>Loading...</em></p>
+}
+else
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var listings in _listings)
+                {
+                    <tr>
+                      <td><strong>@listings.Name</strong></td>
+                      <td>
+                          <a href=@($"listings/{listings.Id}")>Details</a>
+                          <a href=@($"listings/update/{listings.Id}")>Update</a>
+                          <a href=@($"listings/delete{listings.Id}")>Delete</a>
+                      </td>
+                    </tr>
+                }
+                    </tbody>
+                </table>
+            }
+
+@code {
+    private IEnumerable<ListingsGetAll> _listings;
+
+}

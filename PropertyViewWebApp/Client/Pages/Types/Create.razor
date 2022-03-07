@@ -1,0 +1,42 @@
+﻿@page "/types/create"
+@using PropertyViewWebApp.Shared.Models.TypeOfListing
+@inject HttpClient http
+@inject NavigationManager navigation
+
+<h3>Component1</h3>
+
+@if (errorMessage != null)
+            {
+                <h5 class="text-danger">@errorMessage</h5>
+            }
+
+<div class="container">
+    <EditForm Model="@model" OnValidSubmit="@HandleSubmit">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+        <ValidationSummary></ValidationSummary>
+        <div class="form-group">
+            <label>Name</label>
+            <InputText class="form-control" @bind-Value="model.Name"></InputText>
+            <button type="submit" class="btn btn-primary btn-block mt-5">Submit</button>
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    private TypeOfListingCreate model = new();
+    private string errorMessage;
+
+    private async void HandleSubmit()
+    {
+        var createType = await http.PostAsJsonAsync<TypeOfListingCreate>("/api/types", model);
+
+        if (createType.IsSuccessStatusCode)
+        {
+            navigation.NavigateTo("/types");
+        }
+        else
+        {
+            errorMessage = "Could not create Type. Please try again later.";
+        }
+    }
+}

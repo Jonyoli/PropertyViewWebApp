@@ -10,6 +10,9 @@ using Microsoft.Extensions.Hosting;
 using System.Linq;
 using PropertyViewWebApp.Server.Data;
 using PropertyViewWebApp.Server.Models;
+using PropertyViewWebApp.Server.Services.ListingsServices;
+using PropertyViewWebApp.Server.Services.AmenitiesServices;
+using PropertyViewWebApp.Server.Services.TypeOfListingServices;
 
 namespace PropertyViewWebApp.Server
 {
@@ -43,6 +46,10 @@ namespace PropertyViewWebApp.Server
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddScoped<IListingsService, ListingsService>();
+            services.AddScoped<IAmenitiesService, AmenitiesService>();
+            services.AddScoped<ITypeOfListingService, TypeOfListingService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
