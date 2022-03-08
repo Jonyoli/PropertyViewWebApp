@@ -1,6 +1,6 @@
 ﻿@page "/listings"
 @using PropertyViewWebApp.Shared.Models.Listings
-@inject HttpClient Http
+@inject HttpClient http
 
 <h3>Listings</h3>
 
@@ -36,5 +36,10 @@ else
 
 @code {
     private IEnumerable<ListingsGetAll> _listings;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _listings = await http.GetFromJsonAsync<List<ListingsGetAll>>("/api/listings");
+    }
 
 }

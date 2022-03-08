@@ -3,7 +3,7 @@
 @inject HttpClient http
 @inject NavigationManager navigation
 
-<h3>Component1</h3>
+<h3>Create</h3>
 
 @if (errorMessage != null)
             {
@@ -28,11 +28,11 @@
 
     private async void HandleSubmit()
     {
-        var createType = await http.PostAsJsonAsync<TypeOfListingCreate>("/api/types", model);
+        var createType = await http.PostAsJsonAsync<TypeOfListingCreate>("/api/TypeOfListing", model);
 
         if (createType.IsSuccessStatusCode)
         {
-            navigation.NavigateTo("/types");
+            navigation.NavigateTo("/TypeOfListing");
         }
         else
         {

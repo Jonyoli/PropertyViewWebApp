@@ -37,14 +37,14 @@ namespace PropertyViewWebApp.Server.Controllers
             return UnprocessableEntity();
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllListings()
-        {
-            var listings = await _listingsService.GetAllListingsAsync();
-            return Ok(listings);
-        }
+        //[HttpGet]
+        //public async Task<IActionResult> GetAllListings()
+        //{
+        //    var listings = await _listingsService.GetAllListingsAsync();
+        //    return Ok(listings);
+        //}
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetListingsDetail(int listingsId)
         {
             var listings = await _listingsService.GetListingsDetailAsync(listingsId);
@@ -54,7 +54,7 @@ namespace PropertyViewWebApp.Server.Controllers
                 : NotFound();
         }
 
-        [HttpPut]
+        [HttpPut("update/{id}")]
         public async Task<IActionResult> UpdateListings(ListingsUpdate request)
         {
             if (!ModelState.IsValid)
@@ -65,7 +65,7 @@ namespace PropertyViewWebApp.Server.Controllers
                 : BadRequest();
         }
 
-        [HttpDelete]
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteListings(int listingsId)
         {
             return await _listingsService.DeleteListingsAsync(listingsId)

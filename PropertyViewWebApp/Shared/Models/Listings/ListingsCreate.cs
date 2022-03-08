@@ -19,5 +19,8 @@ namespace PropertyViewWebApp.Shared.Models.Listings
 
         [Required]
         public double Squarefeet { get; set; }
+
+        public int typeId { get; set; }
+
     }
 }

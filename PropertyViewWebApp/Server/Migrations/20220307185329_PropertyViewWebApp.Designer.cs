@@ -3,21 +3,38 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PropertyViewWebApp.Server.Data;
 
-namespace PropertyViewWebApp.Server.Data.Migrations
+namespace PropertyViewWebApp.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220307185329_PropertyViewWebApp")]
+    partial class PropertyViewWebApp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.14")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("AmenitiesListings", b =>
+                {
+                    b.Property<int>("AmenitiesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ListingsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AmenitiesId", "ListingsId");
+
+                    b.HasIndex("ListingsId");
+
+                    b.ToTable("AmenitiesListings");
+                });
 
             modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.DeviceFlowCodes", b =>
                 {
@@ -257,15 +274,12 @@ namespace PropertyViewWebApp.Server.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("PropertyViewWebApp.Server.Models.Amenitites", b =>
+            modelBuilder.Entity("PropertyViewWebApp.Server.Models.Amenities", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ListingsId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -273,10 +287,7 @@ namespace PropertyViewWebApp.Server.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ListingsId")
-                        .IsUnique();
-
-                    b.ToTable("Amenitites");
+                    b.ToTable("Amenities");
                 });
 
             modelBuilder.Entity("PropertyViewWebApp.Server.Models.ApplicationUser", b =>
@@ -351,9 +362,6 @@ namespace PropertyViewWebApp.Server.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AmenitiesId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -371,6 +379,9 @@ namespace PropertyViewWebApp.Server.Data.Migrations
                         .HasColumnType("float");
 
                     b.Property<int>("TypeOfListingId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("amenitiesId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -394,6 +405,21 @@ namespace PropertyViewWebApp.Server.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TypeOfListing");
+                });
+
+            modelBuilder.Entity("AmenitiesListings", b =>
+                {
+                    b.HasOne("PropertyViewWebApp.Server.Models.Amenities", null)
+                        .WithMany()
+                        .HasForeignKey("AmenitiesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PropertyViewWebApp.Server.Models.Listings", null)
+                        .WithMany()
+                        .HasForeignKey("ListingsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -447,21 +473,10 @@ namespace PropertyViewWebApp.Server.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PropertyViewWebApp.Server.Models.Amenitites", b =>
-                {
-                    b.HasOne("PropertyViewWebApp.Server.Models.Listings", "Listings")
-                        .WithOne("Amenitites")
-                        .HasForeignKey("PropertyViewWebApp.Server.Models.Amenitites", "ListingsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Listings");
-                });
-
             modelBuilder.Entity("PropertyViewWebApp.Server.Models.Listings", b =>
                 {
                     b.HasOne("PropertyViewWebApp.Server.Models.TypeOfListing", "TypeOfListing")
-                        .WithMany()
+                        .WithMany("Listings")
                         .HasForeignKey("TypeOfListingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -469,9 +484,9 @@ namespace PropertyViewWebApp.Server.Data.Migrations
                     b.Navigation("TypeOfListing");
                 });
 
-            modelBuilder.Entity("PropertyViewWebApp.Server.Models.Listings", b =>
+            modelBuilder.Entity("PropertyViewWebApp.Server.Models.TypeOfListing", b =>
                 {
-                    b.Navigation("Amenitites");
+                    b.Navigation("Listings");
                 });
 #pragma warning restore 612, 618
         }

@@ -22,7 +22,7 @@ namespace PropertyViewWebApp.Server.Services.TypeOfListingServices
             var typeEntity = await _context.TypeOfListing.FindAsync(typeId);
             var listingsEntity = await _context.Listings.FindAsync(listingsId);
             listingsEntity.TypeOfListing = typeEntity;
-            listingsEntity = typeEntity.Listings;
+            //listingsEntity = typeEntity.Listings;
             var numberOfChanges = await _context.SaveChangesAsync();
 
             return numberOfChanges == 1;

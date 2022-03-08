@@ -45,7 +45,8 @@ namespace PropertyViewWebApp.Server.Services.ListingsServices
                 Price = model.Price,
                 NumberOfBeds = model.NumberOfBeds,
                 NumberOfBaths = model.NumberOfBaths,
-                Squarefeet = model.Squarefeet
+                Squarefeet = model.Squarefeet,
+                TypeOfListingId = model.typeId
             };
 
             _context.Listings.Add(listingsEntity);

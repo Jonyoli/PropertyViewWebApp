@@ -1,5 +1,67 @@
-﻿<h3>Component1</h3>
+﻿@page "/listings/delete/{listingsId:int}"
+@using PropertyViewWebApp.Shared.Models.Listings
+@inject HttpClient http
+@inject NavigationManager navigation
+
+<h3>Delete Listings #@listingsId</h3>
+
+@if (Message != null)
+{
+    <h2 class="text-danger">@Message</h2>
+}
+
+@if (Listings != null)
+{
+    <div class="container">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <span>Listings #@Listings.Id</span>
+                <span class="text-muted"><strong>@Listings.Type.Name</strong></span>
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">@Listings.Name</h4>
+                <p class="card-text">@Listings.Price</p>
+                <p class="card-text">@Listings.NumberOfBeds</p>
+                <p class="card-text">@Listings.NumberOfBaths</p>
+                <p class="card-text">@Listings.Squarefeet</p>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center mt-3">
+        <div class="text-center justify-content-between w-50">
+            <a href=@($"/listings/update/{listingsId}") class="btn btn-outline-primary">Back to Index</a>
+            <a href="#" @onclick="HandleClick" class="btn btn-danger text-white">Delete Listing</a>
+        </div>
+    </div>
+}
+else
+{
+    <p>Loading...</p>
+}
+
 
 @code {
+    [Parameter]
+    public int listingsId { get; set; }
+    public ListingsDetail Listings { get; set; }
+    public string Message { get; set; }
 
+    protected override async Task OnInitializedAsync()
+    {
+        Listings = await http.GetFromJsonAsync<ListingsDetail>($"/api/listings/{listingsId}");
+    }
+
+    private async void HandleClick()
+    {
+        var deleteListing = await http.DeleteAsync($"/api/listings/delete/{listingsId}");
+
+        if (deleteListing.IsSuccessStatusCode)
+        {
+            navigation.NavigateTo("/listings");
+        }
+        else
+        {
+            Message = "Failed to your listing.";
+        }
+    }
 }
