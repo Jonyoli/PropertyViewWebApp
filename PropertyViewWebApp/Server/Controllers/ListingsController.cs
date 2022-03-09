@@ -74,7 +74,7 @@ namespace PropertyViewWebApp.Server.Controllers
         }
 
         [HttpPut("addAmenity/{listingsId:int}")]
-        public async Task<IActionResult> AddListingsToAmenities(int listingsId, [FromBody] AddListingsToAmenities request)
+        public async Task<IActionResult> AddListingsToAmenities(int listingsId, AddListingsToAmenities request)
         {
             if (!ModelState.IsValid)
             {

@@ -41,7 +41,7 @@
         var updateType = await http.PutAsJsonAsync<TypeOfListingGetAll>($"/api/TypeOfListing/update/{typesId}", type);
         if (updateType.IsSuccessStatusCode)
         {
-            navigation.NavigateTo($"/types/{typesId}");
+            navigation.NavigateTo($"/types");
         }
         else
         {

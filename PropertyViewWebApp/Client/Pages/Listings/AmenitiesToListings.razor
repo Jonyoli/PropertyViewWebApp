@@ -6,7 +6,7 @@
 
 @if (model != null)
 {
-    <h3>Add Amenity to Listing: @model.Name</h3>
+    <h3>Add Amenity to Listing: @model.Id</h3>
 }
 @if (errorMessage != null)
 {
@@ -25,36 +25,11 @@ else
             <DataAnnotationsValidator />
             <ValidationSummary />
 
-            <div class="form-group">
-                <label>Name</label>
-                <InputText class="form-control" @bind-Value="model.Name" />
-            </div>
-
-            <div class="form-group">
-                <label>Price</label>
-                <InputNumber class="form-control" @bind-Value="model.Price" />
-            </div>
-
-            <div class="form-group">
-                <label>Number of Beds</label>
-                <InputNumber class="form-control" @bind-Value="model.NumberOfBeds" />
-            </div>
-
-            <div class="form-group">
-                <label>Number of Baths</label>
-                <InputNumber class="form-control" @bind-Value="model.NumberOfBaths" />
-            </div>
-
-            <div class="form-group">
-                <label>Squarefeet</label>
-                <InputNumber class="form-control" @bind-Value="model.Squarefeet" />
-            </div>
-
             <label>Amenity</label>
-            <InputSelect class="form-control" @bind-Value="model.typeId">
+            <InputSelect class="form-control" @bind-Value="model.AmenitiesId">
                 @foreach (var amenity in amenities)
                     {
-                    <option value="@type.Id">@type.Name</option>
+                    <option value="@amenity.Id">@amenity.Name</option>
                     }
             </InputSelect>
             <button type="submit" class="btn btn-primary btn-block mt-5">Submit</button>
@@ -67,19 +42,19 @@ else
 @code {
     [Parameter]
     public int listingsId { get; set; }
-    private ListingsCreate model { get; set; }
+    private AddListingsToAmenities model { get; set; } = new();
     private IEnumerable<AmenitiesGetAll> amenities { get; set; }
     private string errorMessage { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        model = await http.GetFromJsonAsync<ListingsCreate>($"/api/listings/{listingsId}");
+        model.Id = listingsId;
         amenities = await http.GetFromJsonAsync<IEnumerable<AmenitiesGetAll>>("/api/amenities/");
     }
 
     private async void HandleSubmit()
     {
-        var createListings = await http.PostAsJsonAsync<ListingsCreate>("/api/Listings", model);
+        var createListings = await http.PutAsJsonAsync<AddListingsToAmenities>($"/api/listings/addAmenity/{listingsId}", model);
         if (createListings.IsSuccessStatusCode)
         {
             navigation.NavigateTo("/Listings");

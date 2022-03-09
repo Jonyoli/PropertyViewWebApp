@@ -106,6 +106,7 @@ namespace PropertyViewWebApp.Server.Services.ListingsServices
             listingsUpdate.NumberOfBeds = (model.NumberOfBeds ?? listingsUpdate.NumberOfBeds);
             listingsUpdate.NumberOfBaths = (model.NumberOfBaths ?? listingsUpdate.NumberOfBaths);
             listingsUpdate.Squarefeet = (model.Squarefeet ?? listingsUpdate.Squarefeet);
+            listingsUpdate.TypeOfListingId = (model.typeId);
 
             return await _context.SaveChangesAsync() == 1;
         }
