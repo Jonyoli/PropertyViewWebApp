@@ -1,5 +1,61 @@
-﻿<h3>Component1</h3>
+﻿@page "/amenities/delete/{typesId:int}"
+@using PropertyViewWebApp.Shared.Models.Amenities
+@inject HttpClient http
+@inject NavigationManager navigation
+
+<h3>Delete Amenities #@amenitiesId</h3>
+
+@if (Message != null)
+{
+    <h2 class="text-danger">@Message</h2>
+}
+
+@if (amenities != null)
+{
+    <div class="container">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <span>Listings #@amenities.Id</span>
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">@amenities.Name</h4>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center mt-3">
+        <div class="text-center justify-content-between w-50">
+            <a href=@($"/listings/update/{amenitiesId}") class="btn btn-outline-primary">Back to Index</a>
+            <a href="#" @onclick="HandleClick" class="btn btn-danger text-white">Delete Listing</a>
+        </div>
+    </div>
+}
+else
+{
+    <p>Loading...</p>
+}
 
 @code {
+    [Parameter]
+    public int amenitiesId { get; set; }
+    public AmenitiesGetAll amenities { get; set; }
+    public string Message { get; set; }
 
+    protected override async Task OnInitializedAsync()
+    {
+        amenities = await http.GetFromJsonAsync<AmenitiesGetAll>($"/api/Amenities/{amenitiesId}");
+    }
+
+    private async void HandleClick()
+    {
+        var deleteListing = await http.DeleteAsync($"/api/amenities/delete/{amenitiesId}");
+
+        if (deleteListing.IsSuccessStatusCode)
+        {
+            navigation.NavigateTo("/amenities");
+        }
+        else
+        {
+            Message = "Failed to delete your amenity.";
+        }
+    }
 }

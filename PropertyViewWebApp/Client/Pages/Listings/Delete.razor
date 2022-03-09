@@ -48,7 +48,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        Listings = await http.GetFromJsonAsync<ListingsDetail>($"/api/listings/{listingsId}");
+        Listings = await http.GetFromJsonAsync<ListingsDetail>($"/api/Listings/{listingsId}");
     }
 
     private async void HandleClick()
@@ -57,11 +57,11 @@ else
 
         if (deleteListing.IsSuccessStatusCode)
         {
-            navigation.NavigateTo("/listings");
+            navigation.NavigateTo("/Listings");
         }
         else
         {
-            Message = "Failed to your listing.";
+            Message = "Failed to delete your listing.";
         }
     }
 }

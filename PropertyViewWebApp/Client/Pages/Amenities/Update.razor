@@ -1,5 +1,31 @@
-﻿<h3>Component1</h3>
+﻿@page "/amenities/update/{listingsId:int}"
+@inject HttpClient http
+@using PropertyViewWebApp.Shared.Models.Amenities
+@inject NavigationManager navigation
+<h3>Update Amenities: @amenity.Name</h3>
 
 @code {
+    [Parameter]
+    public int amenitiesId { get; set; }
+    private AmenitiesGetAll amenity { get; set; }
+    private IEnumerable<AmenitiesGetAll> amenities { get; set; }
+    private string ErrorMessage { get; set; }
 
+    protected override async Task OnInitializedAsync()
+    {
+        amenities = await http.GetFromJsonAsync<IEnumerable<AmenitiesGetAll>>("/api/amenities/{amenitiesId}");
+    }
+
+    private async void HandleSubmit()
+    {
+        var updateAmenity = await http.PutAsJsonAsync<AmenitiesGetAll>($"/api/listings/update/{amenitiesId}", amenity);
+        if (updateAmenity.IsSuccessStatusCode)
+        {
+            navigation.NavigateTo($"/amenities/{amenitiesId}");
+        }
+        else
+        {
+            ErrorMessage = "Could not update your amenity right now.  Please try again later.";
+        }
+    }
 }

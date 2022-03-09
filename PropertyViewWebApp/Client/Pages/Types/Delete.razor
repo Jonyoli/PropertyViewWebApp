@@ -1,5 +1,61 @@
-﻿<h3>Component1</h3>
+﻿@page "/types/delete/{typesId:int}"
+@using PropertyViewWebApp.Shared.Models.TypeOfListing
+@inject HttpClient http
+@inject NavigationManager navigation
+
+<h3>Delete Listings #@typesId</h3>
+
+@if (Message != null)
+{
+    <h2 class="text-danger">@Message</h2>
+}
+
+@if (types != null)
+{
+    <div class="container">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <span>Listings #@types.Id</span>
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">@types.Name</h4>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center mt-3">
+        <div class="text-center justify-content-between w-50">
+            <a href=@($"/listings/update/{typesId}") class="btn btn-outline-primary">Back to Index</a>
+            <a href="#" @onclick="HandleClick" class="btn btn-danger text-white">Delete Listing</a>
+        </div>
+    </div>
+}
+else
+{
+    <p>Loading...</p>
+}
 
 @code {
+    [Parameter]
+    public int typesId { get; set; }
+    public TypeOfListingGetAll types { get; set; }
+    public string Message { get; set; }
 
+    protected override async Task OnInitializedAsync()
+    {
+        types = await http.GetFromJsonAsync<TypeOfListingGetAll>($"/api/TypeOfListing/{typesId}");
+    }
+
+    private async void HandleClick()
+    {
+        var deleteListing = await http.DeleteAsync($"/api/types/delete/{typesId}");
+
+        if (deleteListing.IsSuccessStatusCode)
+        {
+            navigation.NavigateTo("/types");
+        }
+        else
+        {
+            Message = "Failed to delete your type of listing.";
+        }
+    }
 }

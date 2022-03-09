@@ -1,5 +1,32 @@
-﻿<h3>Component1</h3>
+﻿@page "/types/update/{listingsId:int}"
+@inject HttpClient http
+@using PropertyViewWebApp.Shared.Models.TypeOfListing
+@inject NavigationManager navigation
+<h3>Update Type of Listing: @type.Name</h3>
 
 @code {
+    [Parameter]
+    public int typesId { get; set; }
+    private TypeOfListingGetAll type { get; set; }
+    private IEnumerable<TypeOfListingGetAll> types { get; set; }
+    private string ErrorMessage { get; set; }
 
+    protected override async Task OnInitializedAsync()
+    {
+        types = await http.GetFromJsonAsync<IEnumerable<TypeOfListingGetAll>>("/api/types/{typesId}");
+    }
+
+    private async void HandleSubmit()
+    {
+        var createListings = await http.PutAsJsonAsync<TypeOfListingGetAll>($"/api/listings/update/{typesId}", type);
+        if (createListings.IsSuccessStatusCode)
+        {
+            navigation.NavigateTo($"/types/{typesId}");
+        }
+        else
+        {
+            ErrorMessage = "Could not update your type of listing right now.  Please try again later.";
+        }
+    }
 }
+

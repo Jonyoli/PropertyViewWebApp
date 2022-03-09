@@ -1,10 +1,10 @@
-﻿@page "/types"
-@using PropertyViewWebApp.Shared.Models.TypeOfListing
+﻿@page "/amenities"
+@using PropertyViewWebApp.Shared.Models.Amenities
 @inject HttpClient Http
-<h3>Types</h3>
+<h3>Amenities</h3>
 
-<a href="/listings/create">Create a Listing</a>
-@if (types == null)
+<a href="/amenities/create">Create a Amenity</a>
+@if (amenities == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -18,11 +18,11 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (TypeOfListingGetAll types in types)
+            @foreach (AmenitiesGetAll amenities in amenities)
             {
                 <tr>
-                    <td>@types.Id</td>
-                    <td>@types.Name</td>
+                    <td>@amenities.Id</td>
+                    <td>@amenities.Name</td>
                 </tr>
             }
         </tbody>
@@ -30,5 +30,5 @@ else
 }
 
 @code {
-    private List<TypeOfListingGetAll> types;
+    private List<AmenitiesGetAll> amenities;
 }

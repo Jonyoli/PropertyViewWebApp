@@ -12,10 +12,15 @@
                 <span class="text-muted"><strong>@Listings.Type.Name</strong></span>
             </div>
             <div class="card-body">
+                <label>Name</label>
                 <h4 class="card-title">@Listings.Name</h4>
-                <p class="card-text">@Listings.Price</p>
+                <label>Price</label>
+                <p class="card-text">$@Listings.Price.ToString("C")</p>
+                <label>Number of Beds</label>
                 <p class="card-text">@Listings.NumberOfBeds</p>
+                <label>Number of Baths</label>
                 <p class="card-text">@Listings.NumberOfBaths</p>
+                <label>Square Feet</label>
                 <p class="card-text">@Listings.Squarefeet</p>
             </div>
             <div class="d-flex justify-content-center mt-3">
@@ -41,7 +46,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        Listings = await http.GetFromJsonAsync<ListingsDetail>($"/api/listings/{listingsId}");
+        Listings = await http.GetFromJsonAsync<ListingsDetail>($"/api/Listings/{listingsId}");
     }
 
 }

@@ -39,7 +39,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        _listings = await http.GetFromJsonAsync<List<ListingsGetAll>>("/api/listings");
+        _listings = await http.GetFromJsonAsync<List<ListingsGetAll>>("/api/Listings");
     }
 
 }
