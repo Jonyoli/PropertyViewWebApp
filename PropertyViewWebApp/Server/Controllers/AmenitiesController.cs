@@ -32,11 +32,22 @@ namespace PropertyViewWebApp.Server.Controllers
             return BadRequest();
         }
 
+
         [HttpGet]
         public async Task<IActionResult> GetAllAmenities()
         {
             var amenities = await _amenitiesService.GetAllAmenitiesAsync();
             return Ok(amenities);
+        }
+
+        [HttpGet("{int}")]
+        public async Task<IActionResult> AmenitiesById(int amenitiesId)
+        {
+            var amenities = await _amenitiesService.GetAmenitiesByIdAsync(amenitiesId);
+
+            return amenities is not null
+                ? Ok(amenities)
+                : NotFound();
         }
 
         [HttpPut("update/{amenitiesId:int}")]

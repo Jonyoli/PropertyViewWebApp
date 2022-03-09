@@ -31,7 +31,6 @@ namespace PropertyViewWebApp.Server.Services.AmenitiesServices
             return numberOfChanges == 1;
         }
 
-
         public async Task<IEnumerable<AmenitiesGetAll>> GetAllAmenitiesAsync()
         {
             var amenities = await _context.Amenities
@@ -58,6 +57,17 @@ namespace PropertyViewWebApp.Server.Services.AmenitiesServices
 
             _context.Amenities.Remove(amenitiesDelete);
             return await _context.SaveChangesAsync() == 1;
+        }
+
+        public async Task<AmenitiesDetail> GetAmenitiesByIdAsync(int amenitiesId)
+        {
+            var amenities = await _context.Amenities
+           .FirstOrDefaultAsync(a => a.Id == amenitiesId);
+            return amenities is null ? null : new AmenitiesDetail
+            {
+                Id = amenities.Id,
+                Name = amenities.Name
+            };
         }
     }
 }

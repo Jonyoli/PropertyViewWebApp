@@ -14,20 +14,20 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Model = await http.GetFromJsonAsync<ListingsUpdate>($"/api/listings/{listingsId}");
+        Model = await http.GetFromJsonAsync<ListingsUpdate>($"/api/Listings/{listingsId}");
         Types = await http.GetFromJsonAsync<IEnumerable<TypeOfListingGetAll>>("/api/types/");
-        }
+    }
 
-        private async void HandleSubmit()
+    private async void HandleSubmit()
+    {
+        var createListings = await http.PutAsJsonAsync<ListingsUpdate>($"/api/Listings/update/{listingsId}", Model);
+        if (createListings.IsSuccessStatusCode)
         {
-            var createListings = await http.PutAsJsonAsync<ListingsUpdate>($"/api/listings/update/{listingsId}", Model);
-            if(createListings.IsSuccessStatusCode)
-            {
-                navigation.NavigateTo($"/listings/{listingsId}");
-            }
-            else
-            {
-                ErrorMessage = "Could not create your listing right now.  Please try again later.";
-            }
+            navigation.NavigateTo($"/Listings/{listingsId}");
+        }
+        else
+        {
+            ErrorMessage = "Could not create your listing right now.  Please try again later.";
+        }
     }
 }

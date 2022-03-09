@@ -8,18 +8,18 @@
     [Parameter]
     public int typesId { get; set; }
     private TypeOfListingGetAll type { get; set; }
-    private IEnumerable<TypeOfListingGetAll> types { get; set; }
+    //private IEnumerable<TypeOfListingGetAll> types { get; set; }
     private string ErrorMessage { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        types = await http.GetFromJsonAsync<IEnumerable<TypeOfListingGetAll>>("/api/types/{typesId}");
+        type = await http.GetFromJsonAsync<TypeOfListingGetAll>($"/api/types/{typesId}");
     }
 
     private async void HandleSubmit()
     {
-        var createListings = await http.PutAsJsonAsync<TypeOfListingGetAll>($"/api/listings/update/{typesId}", type);
-        if (createListings.IsSuccessStatusCode)
+        var updateType = await http.PutAsJsonAsync<TypeOfListingGetAll>($"/api/TypeOfListing/update/{typesId}", type);
+        if (updateType.IsSuccessStatusCode)
         {
             navigation.NavigateTo($"/types/{typesId}");
         }

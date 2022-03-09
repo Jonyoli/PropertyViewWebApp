@@ -1,10 +1,10 @@
 ﻿@page "/amenities"
 @using PropertyViewWebApp.Shared.Models.Amenities
-@inject HttpClient Http
+@inject HttpClient http
 <h3>Amenities</h3>
 
 <a href="/amenities/create">Create a Amenity</a>
-@if (amenities == null)
+@if (_amenities == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -13,22 +13,29 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Name</th>
+                <th>Amenity</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (AmenitiesGetAll amenities in amenities)
+            @foreach (var amenities in _amenities)
             {
-                <tr>
-                    <td>@amenities.Id</td>
-                    <td>@amenities.Name</td>
-                </tr>
+            <tr>
+                <td><strong>@amenities.Name</strong></td>
+                <td>
+                    <a href=@($"amenities/update/{amenities.Id}")>Update</a>
+                    <a href=@($"amenities/delete/{amenities.Id}")>Delete</a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>
 }
 
 @code {
-    private List<AmenitiesGetAll> amenities;
+    private List<AmenitiesGetAll> _amenities;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _amenities = await http.GetFromJsonAsync<List<AmenitiesGetAll>>("/api/Amenities");
+    }
 }

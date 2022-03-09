@@ -13,6 +13,9 @@ namespace PropertyViewWebApp.Server.Services.AmenitiesServices
         //Amenities Get all
         Task<IEnumerable<AmenitiesGetAll>> GetAllAmenitiesAsync();
 
+        //Amenity By Id
+        Task<AmenitiesDetail> GetAmenitiesByIdAsync(int amenitiesId);
+
         //Update Amenities
         Task<bool> UpdateAmenitiesAsnc(AmenitiesUpdate request);
 
