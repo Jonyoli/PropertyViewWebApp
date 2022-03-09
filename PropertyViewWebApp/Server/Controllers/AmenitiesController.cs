@@ -39,7 +39,7 @@ namespace PropertyViewWebApp.Server.Controllers
             return Ok(amenities);
         }
 
-        [HttpPut]
+        [HttpPut("update/{amenitiesId:int}")]
         public async Task<IActionResult> UpdateAmenities(AmenitiesUpdate request)
         {
             if (!ModelState.IsValid)
@@ -50,7 +50,7 @@ namespace PropertyViewWebApp.Server.Controllers
                 : BadRequest();
         }
 
-        [HttpDelete]
+        [HttpDelete("delete/{amenitiesId:int}")]
         public async Task<IActionResult> DeleteAmenities(int amenitiesId)
         {
             return await _amenitiesService.DeleteAmenitiesAsync(amenitiesId)

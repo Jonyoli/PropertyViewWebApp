@@ -39,7 +39,7 @@ namespace PropertyViewWebApp.Server.Controllers
             return Ok(type);
         }
 
-        [HttpPut]
+        [HttpPut("update/{typesId:int}")]
         public async Task<IActionResult> UpdateType(TypeOfListingUpdate request)
         {
             if (!ModelState.IsValid)
@@ -50,7 +50,7 @@ namespace PropertyViewWebApp.Server.Controllers
                 : BadRequest();
         }
 
-        [HttpDelete]
+        [HttpDelete("delete/{typesId:int}")]
         public async Task<IActionResult> DeleteType(int typeId)
         {
             return await _typeService.DeleteTypeAsync(typeId)

@@ -1,0 +1,37 @@
+﻿@page "/listings/addAmenity/{listingsId:int}"
+@using PropertyViewWebApp.Shared.Models.Listings
+@inject HttpClient http
+@using PropertyViewWebApp.Shared.Models.Amenities
+@inject NavigationManager navigation
+
+<h3>Add Amenity to Listing: @Model.Name</h3>
+
+
+
+@code {
+    [Parameter]
+    public int listingsId { get; set; }
+    private ListingsCreate Model { get; set; }
+    private IEnumerable<AmenitiesGetAll> amenities { get; set; }
+    private string ErrorMessage { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await http.GetFromJsonAsync<ListingsCreate>($"/api/listings/{listingsId}");
+        amenities = await http.GetFromJsonAsync<IEnumerable<AmenitiesGetAll>>("/api/amenities/");
+    }
+
+    private async void HandleSubmit()
+    {
+        var createListings = await http.PostAsJsonAsync<ListingsCreate>("/api/Listings", Model);
+        if (createListings.IsSuccessStatusCode)
+        {
+            navigation.NavigateTo("/Listings");
+        }
+        else
+        {
+            ErrorMessage = "Could not create listing right now. Please try again later.";
+        }
+    }
+
+}

@@ -18,11 +18,11 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (AmenitiesGetAll types in amenities)
+            @foreach (AmenitiesGetAll amenities in amenities)
             {
                 <tr>
-                    <td>@types.Id</td>
-                    <td>@types.Name</td>
+                    <td>@amenities.Id</td>
+                    <td>@amenities.Name</td>
                 </tr>
             }
         </tbody>

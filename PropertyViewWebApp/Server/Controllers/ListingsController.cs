@@ -73,7 +73,7 @@ namespace PropertyViewWebApp.Server.Controllers
                 : BadRequest();
         }
 
-        [HttpPut]
+        [HttpPut("addAmenity/{listingsId:int}")]
         public async Task<IActionResult> AddListingsToAmenities(int listingsId, [FromBody] AddListingsToAmenities request)
         {
             if (!ModelState.IsValid)
