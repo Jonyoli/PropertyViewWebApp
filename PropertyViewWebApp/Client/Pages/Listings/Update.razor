@@ -3,31 +3,90 @@
 @inject HttpClient http
 @using PropertyViewWebApp.Shared.Models.TypeOfListing
 @inject NavigationManager navigation
-<h3>Edit Listings: @Model.Name</h3>
+
+@if (model != null)
+{
+    <h3>Update Listings: @model.Name</h3>
+}
+
+@if (errorMessage != null)
+{
+    <h5 class="text-danger">@errorMessage</h5>
+}
+
+@if (Types == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+
+    <div class="container">
+        <EditForm Model="@model" OnValidSubmit="@HandleSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="form-group">
+                <label>Name</label>
+                <InputText class="form-control" @bind-Value="model.Name" />
+            </div>
+
+            <div class="form-group">
+                <label>Price</label>
+                <InputNumber class="form-control" @bind-Value="model.Price" />
+            </div>
+
+            <div class="form-group">
+                <label>Number of Beds</label>
+                <InputNumber class="form-control" @bind-Value="model.NumberOfBeds" />
+            </div>
+
+            <div class="form-group">
+                <label>Number of Baths</label>
+                <InputNumber class="form-control" @bind-Value="model.NumberOfBaths" />
+            </div>
+
+            <div class="form-group">
+                <label>Squarefeet</label>
+                <InputNumber class="form-control" @bind-Value="model.Squarefeet" />
+            </div>
+
+            <label>Type</label>
+            <InputSelect class="form-control" @bind-Value="model.typeId">
+                @foreach (var type in Types)
+                    {
+                    <option value="@type.Id">@type.Name</option>
+                    }
+            </InputSelect>
+            <button type="submit" class="btn btn-primary btn-block mt-5">Submit</button>
+
+        </EditForm>
+    </div>
+}
 
 @code {
     [Parameter]
     public int listingsId { get; set; }
-    private ListingsUpdate Model { get; set; }
+    private ListingsUpdate model { get; set; }
     private IEnumerable<TypeOfListingGetAll> Types { get; set; }
-    private string ErrorMessage { get; set; }
+    private string errorMessage { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        Model = await http.GetFromJsonAsync<ListingsUpdate>($"/api/Listings/{listingsId}");
-        Types = await http.GetFromJsonAsync<IEnumerable<TypeOfListingGetAll>>("/api/types/");
+        model = await http.GetFromJsonAsync<ListingsUpdate>($"/api/listings/{listingsId}");
+        Types = await http.GetFromJsonAsync<IEnumerable<TypeOfListingGetAll>>("/api/TypeOfListing/");
     }
 
     private async void HandleSubmit()
     {
-        var createListings = await http.PutAsJsonAsync<ListingsUpdate>($"/api/Listings/update/{listingsId}", Model);
+        var createListings = await http.PutAsJsonAsync<ListingsUpdate>($"/api/listings/update/{listingsId}", model);
         if (createListings.IsSuccessStatusCode)
         {
-            navigation.NavigateTo($"/Listings/{listingsId}");
+            navigation.NavigateTo($"/listings/{listingsId}");
         }
         else
         {
-            ErrorMessage = "Could not create your listing right now.  Please try again later.";
+            errorMessage = "Could not create your listing right now.  Please try again later.";
         }
     }
 }

@@ -69,5 +69,16 @@ namespace PropertyViewWebApp.Server.Services.TypeOfListingServices
             _context.TypeOfListing.Remove(typeDelete);
             return await _context.SaveChangesAsync() == 1;
         }
+
+        public async Task<TypeOfListingDetail> GetAmenitiesByIdAsync(int typeId)
+        {
+            var types = await _context.TypeOfListing
+        .FirstOrDefaultAsync(t => t.Id == typeId);
+            return types is null ? null : new TypeOfListingDetail
+            {
+                Id = types.Id,
+                Name = types.Name
+            };
+        }
     }
 }

@@ -4,33 +4,89 @@
 @using PropertyViewWebApp.Shared.Models.Amenities
 @inject NavigationManager navigation
 
-<h3>Add Amenity to Listing: @Model.Name</h3>
+@if (model != null)
+{
+    <h3>Add Amenity to Listing: @model.Name</h3>
+}
+@if (errorMessage != null)
+{
+    <h5 class="text-danger">@errorMessage</h5>
+}
 
+@if (amenities == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+
+    <div class="container">
+        <EditForm Model="@model" OnValidSubmit="@HandleSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="form-group">
+                <label>Name</label>
+                <InputText class="form-control" @bind-Value="model.Name" />
+            </div>
+
+            <div class="form-group">
+                <label>Price</label>
+                <InputNumber class="form-control" @bind-Value="model.Price" />
+            </div>
+
+            <div class="form-group">
+                <label>Number of Beds</label>
+                <InputNumber class="form-control" @bind-Value="model.NumberOfBeds" />
+            </div>
+
+            <div class="form-group">
+                <label>Number of Baths</label>
+                <InputNumber class="form-control" @bind-Value="model.NumberOfBaths" />
+            </div>
+
+            <div class="form-group">
+                <label>Squarefeet</label>
+                <InputNumber class="form-control" @bind-Value="model.Squarefeet" />
+            </div>
+
+            <label>Amenity</label>
+            <InputSelect class="form-control" @bind-Value="model.typeId">
+                @foreach (var amenity in amenities)
+                    {
+                    <option value="@type.Id">@type.Name</option>
+                    }
+            </InputSelect>
+            <button type="submit" class="btn btn-primary btn-block mt-5">Submit</button>
+
+        </EditForm>
+    </div>
+}
 
 
 @code {
     [Parameter]
     public int listingsId { get; set; }
-    private ListingsCreate Model { get; set; }
+    private ListingsCreate model { get; set; }
     private IEnumerable<AmenitiesGetAll> amenities { get; set; }
-    private string ErrorMessage { get; set; }
+    private string errorMessage { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        Model = await http.GetFromJsonAsync<ListingsCreate>($"/api/listings/{listingsId}");
+        model = await http.GetFromJsonAsync<ListingsCreate>($"/api/listings/{listingsId}");
         amenities = await http.GetFromJsonAsync<IEnumerable<AmenitiesGetAll>>("/api/amenities/");
     }
 
     private async void HandleSubmit()
     {
-        var createListings = await http.PostAsJsonAsync<ListingsCreate>("/api/Listings", Model);
+        var createListings = await http.PostAsJsonAsync<ListingsCreate>("/api/Listings", model);
         if (createListings.IsSuccessStatusCode)
         {
             navigation.NavigateTo("/Listings");
         }
         else
         {
-            ErrorMessage = "Could not create listing right now. Please try again later.";
+            errorMessage = "Could not update listing right now. Please try again later.";
         }
     }
 

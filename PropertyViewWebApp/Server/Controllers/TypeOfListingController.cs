@@ -39,6 +39,17 @@ namespace PropertyViewWebApp.Server.Controllers
             return Ok(type);
         }
 
+        //route Parameter needs to match the method parameter
+        [HttpGet("{typeId:int}")]
+        public async Task<IActionResult> AmenitiesById(int typeId)
+        {
+            var types = await _typeService.GetAmenitiesByIdAsync(typeId);
+
+            return types is not null
+                ? Ok(types)
+                : NotFound();
+        }
+
         [HttpPut("update/{typesId:int}")]
         public async Task<IActionResult> UpdateType(TypeOfListingUpdate request)
         {

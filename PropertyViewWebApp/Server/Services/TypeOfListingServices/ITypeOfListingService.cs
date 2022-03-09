@@ -13,6 +13,9 @@ namespace PropertyViewWebApp.Server.Services.TypeOfListingServices
         //TypeOfListing Get all
         Task<IEnumerable<TypeOfListingGetAll>> GetAllTypeAsync();
 
+        //Type By Id
+        Task<TypeOfListingDetail> GetAmenitiesByIdAsync(int typeId);
+
         //Update Type
         Task<bool> UpdateTypeAsnc(TypeOfListingUpdate request);
 

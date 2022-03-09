@@ -16,5 +16,7 @@ namespace PropertyViewWebApp.Shared.Models.Listings
         public int? NumberOfBaths { get; set; }
 
         public double? Squarefeet { get; set; }
+
+        public int typeId { get; set; }
     }
 }

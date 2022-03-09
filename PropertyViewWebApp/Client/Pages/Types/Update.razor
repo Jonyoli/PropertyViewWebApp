@@ -2,18 +2,38 @@
 @inject HttpClient http
 @using PropertyViewWebApp.Shared.Models.TypeOfListing
 @inject NavigationManager navigation
-<h3>Update Type of Listing: @type.Name</h3>
 
+@if (type != null)
+{
+    <h3>Update Type of Listing: @type.Name</h3>
+}
+
+@if (errorMessage != null)
+{
+    <h5 class="text-danger">@errorMessage</h5>
+}
+
+<div class="container">
+    <EditForm Model="@type" OnValidSubmit="@HandleSubmit">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+        <ValidationSummary></ValidationSummary>
+        <div class="form-group">
+            <label>Name</label>
+            <InputText class="form-control" @bind-Value="type.Name"></InputText>
+            <button type="submit" class="btn btn-primary btn-block mt-5">Submit</button>
+        </div>
+    </EditForm>
+</div>
 @code {
     [Parameter]
     public int typesId { get; set; }
     private TypeOfListingGetAll type { get; set; }
     //private IEnumerable<TypeOfListingGetAll> types { get; set; }
-    private string ErrorMessage { get; set; }
+    private string errorMessage { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        type = await http.GetFromJsonAsync<TypeOfListingGetAll>($"/api/types/{typesId}");
+        type = await http.GetFromJsonAsync<TypeOfListingGetAll>($"/api/TypeOfListing/{typesId}");
     }
 
     private async void HandleSubmit()
@@ -25,7 +45,7 @@
         }
         else
         {
-            ErrorMessage = "Could not update your type of listing right now.  Please try again later.";
+            errorMessage = "Could not update your type of listing right now.  Please try again later.";
         }
     }
 }

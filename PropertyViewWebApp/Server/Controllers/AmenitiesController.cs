@@ -40,7 +40,8 @@ namespace PropertyViewWebApp.Server.Controllers
             return Ok(amenities);
         }
 
-        [HttpGet("{int}")]
+        //route Parameter needs to match the method parameter
+        [HttpGet("{amenitiesId:int}")]
         public async Task<IActionResult> AmenitiesById(int amenitiesId)
         {
             var amenities = await _amenitiesService.GetAmenitiesByIdAsync(amenitiesId);
