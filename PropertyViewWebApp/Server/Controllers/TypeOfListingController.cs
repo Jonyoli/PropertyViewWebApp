@@ -41,9 +41,9 @@ namespace PropertyViewWebApp.Server.Controllers
 
         //route Parameter needs to match the method parameter
         [HttpGet("{typeId:int}")]
-        public async Task<IActionResult> AmenitiesById(int typeId)
+        public async Task<IActionResult> TypesById(int typeId)
         {
-            var types = await _typeService.GetAmenitiesByIdAsync(typeId);
+            var types = await _typeService.GetTypesByIdAsync(typeId);
 
             return types is not null
                 ? Ok(types)
@@ -61,7 +61,7 @@ namespace PropertyViewWebApp.Server.Controllers
                 : BadRequest();
         }
 
-        [HttpDelete("delete/{typesId:int}")]
+        [HttpDelete("delete/{typeId:int}")]
         public async Task<IActionResult> DeleteType(int typeId)
         {
             return await _typeService.DeleteTypeAsync(typeId)

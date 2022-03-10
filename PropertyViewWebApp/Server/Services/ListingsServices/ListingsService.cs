@@ -25,7 +25,7 @@ namespace PropertyViewWebApp.Server.Services.ListingsServices
             var listingsEntity = await _context.Listings.FindAsync(request.Id);
             var amenitiesEntity = await _context.Amenities
                 .Include(a => a.Listings)
-                .FirstOrDefaultAsync(a => a.Id == request.Id);
+                .FirstOrDefaultAsync(a => a.Id == request.AmenitiesId);
 
             if (request.Id == listingsId)
             {
@@ -107,6 +107,7 @@ namespace PropertyViewWebApp.Server.Services.ListingsServices
             listingsUpdate.NumberOfBaths = (model.NumberOfBaths ?? listingsUpdate.NumberOfBaths);
             listingsUpdate.Squarefeet = (model.Squarefeet ?? listingsUpdate.Squarefeet);
             listingsUpdate.TypeOfListingId = (model.typeId);
+            listingsUpdate.amenitiesId = (model.amenitiesId);
 
             return await _context.SaveChangesAsync() == 1;
         }

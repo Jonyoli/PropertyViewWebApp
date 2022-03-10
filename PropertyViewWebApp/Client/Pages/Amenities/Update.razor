@@ -42,7 +42,7 @@
         var updateAmenity = await http.PutAsJsonAsync<AmenitiesGetAll>($"/api/amenities/update/{amenitiesId}", amenity);
         if (updateAmenity.IsSuccessStatusCode)
         {
-            navigation.NavigateTo($"/amenities/{amenitiesId}");
+            navigation.NavigateTo($"/amenities");
         }
         else
         {

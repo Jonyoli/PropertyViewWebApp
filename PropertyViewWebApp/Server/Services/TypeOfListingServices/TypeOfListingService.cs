@@ -70,7 +70,7 @@ namespace PropertyViewWebApp.Server.Services.TypeOfListingServices
             return await _context.SaveChangesAsync() == 1;
         }
 
-        public async Task<TypeOfListingDetail> GetAmenitiesByIdAsync(int typeId)
+        public async Task<TypeOfListingDetail> GetTypesByIdAsync(int typeId)
         {
             var types = await _context.TypeOfListing
         .FirstOrDefaultAsync(t => t.Id == typeId);
